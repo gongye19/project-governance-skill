@@ -1,4 +1,4 @@
 interface:
   display_name: "Project Governance"
-  short_description: "Keep project goals, architecture, flows, and progress aligned"
-  default_prompt: "Use $project-governance to initialize or update this project’s governance documents."
+  short_description: "Initialize governance for a brand-new software project"
+  default_prompt: "Use $project-governance to initialize governance documents for this new project."
