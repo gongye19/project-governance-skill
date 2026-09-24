@@ -1,6 +1,6 @@
 ---
 name: project-governance
-description: Initialize durable goals, architecture, runtime flows, and progress records for a brand-new software project. Use automatically only when starting from zero in a new or empty project directory. For an existing project, use only when the user explicitly invokes project-governance or explicitly asks to adopt it; do not use for ordinary maintenance.
+description: Initialize evidence-based goals, architecture, runtime flows, and progress records for a brand-new software project without inventing unknown fields. Use automatically only when starting from zero in a new or empty project directory. For an existing project, use only when the user explicitly invokes project-governance or explicitly asks to adopt it; do not use for ordinary maintenance.
 ---
 
 # Project Governance
@@ -24,6 +24,14 @@ Use these paths unless the project already has clearly equivalent documents. Reu
 - `docs/PROGRESS.md`: the chronological task record, with tasks `TASK1`, `TASK2`, ... and numbered substeps `1`, `2`, ...
 
 When a required document is missing, create it from the matching file in `assets/`. Replace its instructional placeholder text with project facts; do not invent facts that cannot be determined from the repository or the user.
+
+## Progressive initialization
+
+- Create the four documents even when the project is still uncertain, but record only facts supported by the user or repository evidence. Completeness is not a goal by itself.
+- Write `待确认` or `尚未定义` for an unknown goal, boundary, criterion, prohibition, architecture layer, or flow. Keep any useful known direction without converting assumptions into facts.
+- Do not allocate `CRITERION<n>`, `FORBIDDEN<n>`, `LAYER<n>`, or `STEP<n>` merely to fill a template. An empty section is valid until a real item is defined.
+- A value explicitly marked `待确认` is not an active contract. Its first confirmed definition does not retire a previous identifier, but the decision and evidence must be recorded in the active `TASK`. After confirmation, normal stability and change-control rules apply.
+- Ask for a decision only when the missing information would materially change the next action. Otherwise continue with bounded discovery or reversible work and keep the uncertainty visible.
 
 ## Identifier contract
 
@@ -64,6 +72,8 @@ Keep the same `TASK<n>`, task type, and numeric substeps in every later update. 
 
 Treat `GOAL` and active `CRITERION` and `FORBIDDEN` entries as stable by default, not immutable forever. Preserve a clear contract when it remains valid, but proactively propose a review when evidence shows that the current contract is wrong, unreasonable, obsolete, internally inconsistent, unmeasurable, or no longer represents the user's actual intended outcome.
 
+Do not apply change control to content still explicitly marked `待确认`; confirming it for the first time is initialization, not a contract change. Do not use this exception to relabel an already accepted contract as uncertain.
+
 A goal review is warranted when, for example:
 
 - new domain knowledge invalidates an assumption behind `GOAL` or a `CRITERION`;
@@ -101,6 +111,8 @@ Before allocating or implementing a `TASK<n>`, classify it as exactly one of:
 - **Goal review:** evaluates a potentially necessary change to `GOAL`, `CRITERION`, `FORBIDDEN`, project boundaries, or non-goals; it may end with approval or with the current contract retained.
 
 These are task types, not new identifier prefixes: every type still uses `TASK<n>`.
+
+When no `CRITERION` is confirmed yet, use an Experiment or Goal review for discovery and definition work. Do not classify implementation as Delivery or claim product acceptance until it can be judged against a confirmed criterion.
 
 If a requested task cannot be tied to a `CRITERION`, a documented assumption behind `GOAL/CRITERION/FORBIDDEN`, maintenance, or a goal review, stop before implementation and present it as a scope proposal. If it conflicts with an active `FORBIDDEN`, do not implement it unless a Goal review explicitly changes that prohibition. Approval for nearby work does not approve the expansion.
 

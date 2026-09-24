@@ -4,6 +4,8 @@ An Agent Skill for initializing traceable governance when creating a software pr
 
 It is selected automatically only for a brand-new project in a new or empty directory. For an existing project, invoke it explicitly when you want to adopt this governance system; ordinary maintenance should not trigger it.
 
+Initial governance may remain incomplete: unknown fields stay visibly pending, and numbered entries are created only when their meaning is actually known.
+
 It maintains four stable views of a project:
 
 - `GOAL`, `CRITERION<n>`, and `FORBIDDEN<n>`: goal, measurable acceptance criteria, and numbered constraints the project must not violate

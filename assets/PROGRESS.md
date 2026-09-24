@@ -3,7 +3,7 @@
 ## TASK1 （任务名称）
 
 - 类型：（Delivery 正式交付 / Maintenance 正式维护 / Experiment 实验 / Goal review 目标复审）
-- 目标：（本任务要达到什么；关联 GOAL/CRITERION，受哪些 FORBIDDEN 约束）
+- 目标：（本任务要达到什么；关联已确认的 GOAL/CRITERION，受哪些 FORBIDDEN 约束；尚未定义则写“无”，不要补造）
 - 修改位置：（影响的 LAYER/STEP；没有则写“无”）
 - 状态：进行中
 - 开始时间：（YYYY-MM-DD HH:mm，含时区）
