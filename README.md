@@ -6,7 +6,7 @@ It is selected automatically only for a brand-new project in a new or empty dire
 
 It maintains four stable views of a project:
 
-- `GOAL` and `CRITERION<n>`: goal and measurable acceptance criteria
+- `GOAL`, `CRITERION<n>`, and `FORBIDDEN<n>`: goal, measurable acceptance criteria, and numbered constraints the project must not violate
 - `LAYER<n>`: architecture layers
 - `STEP<n>`: real end-to-end runtime flow
 - `TASK<n>`: chronological tasks with numeric substeps

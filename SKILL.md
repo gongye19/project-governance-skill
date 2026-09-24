@@ -18,7 +18,7 @@ Keep four project documents aligned so every change remains traceable over time.
 
 Use these paths unless the project already has clearly equivalent documents. Reuse existing equivalents instead of creating duplicates.
 
-- `docs/GOAL.md`: the current project goal `GOAL` and measurable acceptance criteria `CRITERION1`, `CRITERION2`, ...
+- `docs/GOAL.md`: the current project goal `GOAL`, measurable acceptance criteria `CRITERION1`, `CRITERION2`, ..., and explicit prohibitions `FORBIDDEN1`, `FORBIDDEN2`, ...
 - `docs/ARCHITECTURE.md`: the current architecture divided into layers `LAYER1`, `LAYER2`, ...
 - `docs/FLOW.md`: the current real processing flow, with steps `STEP1`, `STEP2`, ...
 - `docs/PROGRESS.md`: the chronological task record, with tasks `TASK1`, `TASK2`, ... and numbered substeps `1`, `2`, ...
@@ -31,6 +31,7 @@ Each identifier word has exactly one meaning:
 
 - `GOAL`: the single overall project goal. Do not use it for a task or feature.
 - `CRITERION<n>`: an acceptance criterion proving whether `GOAL` is achieved.
+- `FORBIDDEN<n>`: one explicit constraint the project must not violate. It is stronger than an out-of-scope item and records something that must be actively avoided.
 - `LAYER<n>`: an architecture layer or major architectural block.
 - `STEP<n>`: a step in the real end-to-end system flow.
 - `TASK<n>`: one development, modification, verification, or documentation task.
@@ -39,8 +40,8 @@ Keep identifiers stable:
 
 - Allocate a new identifier as one greater than the highest identifier ever used in that document.
 - Never renumber, recycle, or silently change the meaning of an existing identifier.
-- When retiring a `CRITERION`, `LAYER`, or `STEP`, retain it in a short retired section with its original meaning, retirement date, and replacement identifier when one exists.
-- `FORBIDDEN`: do not abbreviate these identifiers or invent any other identifier word or numbering scheme. `FORBIDDEN` labels a prohibited practice; it is not an identifier and never receives a number.
+- When retiring a `CRITERION`, `FORBIDDEN`, `LAYER`, or `STEP`, retain it in a short retired section with its original meaning, retirement date, and replacement identifier when one exists.
+- Only `GOAL`, `CRITERION<n>`, `FORBIDDEN<n>`, `LAYER<n>`, `STEP<n>`, and `TASK<n>` are valid identifiers. Do not abbreviate them or invent another identifier word or numbering scheme.
 - In conversation and work summaries, refer to the active task as `TASK<n>` and list its substeps beneath it as `1`, `2`, `3`, ... . Refer to a specific substep as `TASK<n>/步骤 <n>` when needed.
 
 ## Task communication
@@ -52,7 +53,7 @@ Before starting an actual update, state only the essentials:
 ```text
 TASK<n> <task name>
 类型：<Delivery（正式交付）| Maintenance（正式维护）| Experiment（实验）| Goal review（目标复审）>
-目标：<what this task should achieve; related GOAL/CRITERION>
+目标：<what this task should achieve; related GOAL/CRITERION and any governing FORBIDDEN>
 修改：<affected LAYER/STEP or “none”>
 步骤：1. ...  2. ...  3. ...
 ```
@@ -61,7 +62,7 @@ Keep the same `TASK<n>`, task type, and numeric substeps in every later update. 
 
 ## Goal change control
 
-Treat `GOAL` and active `CRITERION` entries as stable by default, not immutable forever. Preserve a clear goal when it remains valid, but proactively propose a review when evidence shows that the current contract is wrong, unreasonable, obsolete, internally inconsistent, unmeasurable, or no longer represents the user's actual intended outcome.
+Treat `GOAL` and active `CRITERION` and `FORBIDDEN` entries as stable by default, not immutable forever. Preserve a clear contract when it remains valid, but proactively propose a review when evidence shows that the current contract is wrong, unreasonable, obsolete, internally inconsistent, unmeasurable, or no longer represents the user's actual intended outcome.
 
 A goal review is warranted when, for example:
 
@@ -69,50 +70,51 @@ A goal review is warranted when, for example:
 - a `CRITERION` measures a proxy that can pass while the real goal fails;
 - two active criteria contradict each other;
 - a criterion cannot be measured reliably under the project's hard constraints;
-- the operating environment or user need has materially changed.
+- the operating environment, user need, or reason for an active `FORBIDDEN` has materially changed.
 
-Implementation difficulty, a failed result, sunk effort, the current architecture, a preferred technology, or a desire to reduce work is not sufficient evidence for changing `GOAL/CRITERION`.
+Implementation difficulty, a failed result, sunk effort, the current architecture, a preferred technology, or a desire to reduce work is not sufficient evidence for changing `GOAL/CRITERION/FORBIDDEN`.
 
 When a review is warranted:
 
-1. Do not silently edit `GOAL/CRITERION` or continue toward an outcome known to be wrong.
-2. Present the concrete evidence, the current wording, the proposed wording, the reason for changing it, the consequences of keeping it, and the impact on active `CRITERION/LAYER/STEP/TASK` entries.
+1. Do not silently edit `GOAL/CRITERION/FORBIDDEN` or continue toward an outcome known to be wrong.
+2. Present the concrete evidence, the current wording, the proposed wording, the reason for changing it, the consequences of keeping it, and the impact on active `CRITERION/FORBIDDEN/LAYER/STEP/TASK` entries.
 3. Classify the proposed change as stronger, equivalent, or weaker. Explicitly call out any scope expansion, scope reduction, threshold reduction, or measurement change.
 4. Obtain explicit user approval before changing `GOAL.md` or implementing against the proposed contract. If the issue invalidates the active task, pause that implementation; otherwise continue under the existing contract while the proposal remains undecided.
-5. Record the review and its decision in a dedicated `TASK<n>`. Keep rejected proposals in progress history without changing `GOAL/CRITERION`.
+5. Record the review and its decision in a dedicated `TASK<n>`. Keep rejected proposals in progress history without changing `GOAL/CRITERION/FORBIDDEN`.
 
 For an approved change:
 
 - `GOAL` remains the single identifier `GOAL`; record its exact before/after text, approval, and date in the goal-review task.
 - Keep a `CRITERION<n>` only for wording clarification that does not change its scope, threshold, or measurement. For a material change, retire the old criterion and allocate the next unused `CRITERION<n>`.
+- Keep a `FORBIDDEN<n>` only for wording clarification that does not change the prohibited behavior or constraint. For a material change, retire the old prohibition and allocate the next unused `FORBIDDEN<n>`.
 - Update project boundaries and non-goals when the approved change affects scope.
 
-Judge ordinary task completion against the `GOAL/CRITERION` baseline that existed when the task started. Never rewrite the contract after seeing the result merely to make the task pass.
+Judge ordinary task completion against the `GOAL/CRITERION/FORBIDDEN` baseline that existed when the task started. Never rewrite the contract after seeing the result merely to make the task pass.
 
 ## Task admission
 
 Before allocating or implementing a `TASK<n>`, classify it as exactly one of:
 
 - **Delivery (formal):** directly advances one or more named `CRITERION` entries through an approved implementation direction.
-- **Maintenance (formal):** preserves `GOAL/CRITERION` and intended external behavior while repairing reliability, security, operability, or maintainability.
-- **Experiment:** tests an uncertain method or assumption related to `GOAL/CRITERION`; its result is evidence, not an accepted product or architecture decision.
-- **Goal review:** evaluates a potentially necessary change to `GOAL`, `CRITERION`, project boundaries, or non-goals; it may end with approval or with the current contract retained.
+- **Maintenance (formal):** preserves `GOAL/CRITERION/FORBIDDEN` and intended external behavior while repairing reliability, security, operability, or maintainability.
+- **Experiment:** tests an uncertain method or assumption related to `GOAL/CRITERION/FORBIDDEN`; its result is evidence, not an accepted product or architecture decision.
+- **Goal review:** evaluates a potentially necessary change to `GOAL`, `CRITERION`, `FORBIDDEN`, project boundaries, or non-goals; it may end with approval or with the current contract retained.
 
 These are task types, not new identifier prefixes: every type still uses `TASK<n>`.
 
-If a requested task cannot be tied to a `CRITERION`, a documented assumption behind `GOAL/CRITERION`, maintenance, or a goal review, stop before implementation and present it as a scope proposal. Approval for nearby work does not approve the expansion.
+If a requested task cannot be tied to a `CRITERION`, a documented assumption behind `GOAL/CRITERION/FORBIDDEN`, maintenance, or a goal review, stop before implementation and present it as a scope proposal. If it conflicts with an active `FORBIDDEN`, do not implement it unless a Goal review explicitly changes that prohibition. Approval for nearby work does not approve the expansion.
 
 Keep each task inside its stated purpose. Do not add adjacent features, speculative flexibility, unrelated refactors, or extra deliverables to the same `TASK`.
 
 ## Experiment lifecycle
 
-Before an Experiment starts, record its hypothesis, linked `GOAL/CRITERION`, affected `LAYER/STEP`, and the observable success or stop condition. Keep the change reversible and clearly label temporary code, data, flags, branches, or outputs as experimental.
+Before an Experiment starts, record its hypothesis, linked `GOAL/CRITERION/FORBIDDEN`, affected `LAYER/STEP`, and the observable success or stop condition. Keep the change reversible and clearly label temporary code, data, flags, branches, or outputs as experimental.
 
 Do not present an experiment as the accepted current architecture or flow. Keep experimental design in its `TASK<n>` record until it is adopted. Close the experiment with evidence and exactly one outcome:
 
 - **Adopt:** create a linked Delivery or Maintenance `TASK<n>` to formalize, verify, document, and clean up the change.
 - **Reject or inconclusive:** retain the result in progress history and remove disposable experimental artifacts during closeout.
-- **Goal evidence:** when the result shows that `GOAL/CRITERION` may be wrong, unreasonable, or unmeasurable, create a linked Goal review `TASK<n>` and follow goal change control. A failed experiment alone is not permission to weaken `GOAL/CRITERION`.
+- **Goal evidence:** when the result shows that `GOAL/CRITERION/FORBIDDEN` may be wrong, unreasonable, or unmeasurable, create a linked Goal review `TASK<n>` and follow goal change control. A failed experiment alone is not permission to weaken the contract.
 
 ## Complexity gate
 
@@ -131,7 +133,7 @@ If complexity or scope grows materially beyond the approved task, stop and reque
 
 Before reporting a new version complete or making an authorized commit, clean up the files touched or produced by the task:
 
-- Remove confirmed temporary files, debug outputs, superseded drafts, reproducible candidate data, commented-out code, and old implementations no longer required by active `GOAL/CRITERION`.
+- Remove confirmed temporary files, debug outputs, superseded drafts, reproducible candidate data, commented-out code, and old implementations no longer required by active `GOAL/CRITERION/FORBIDDEN`.
 - Do not keep `old`, `backup`, `copy`, or version-suffixed duplicates in the current tree merely for safety; Git preserves code history.
 - Keep `GOAL.md`, `ARCHITECTURE.md`, and `FLOW.md` at the current version instead of adding parallel old copies. Keep `PROGRESS.md` chronological.
 - Add recurring generated or local-only files to the project's ignore rules when appropriate.
@@ -146,11 +148,11 @@ Cleanup is part of finishing the version. Creating the Git commit itself still r
 For project development work:
 
 1. Read the four documents before planning or changing code. If they are missing, initialize them first.
-2. Apply task admission, state whether the task is formal, experimental, or a goal review, capture the starting `GOAL/CRITERION` baseline, and identify the affected `CRITERION`, `LAYER`, and `STEP` identifiers.
+2. Apply task admission, state whether the task is formal, experimental, or a goal review, capture the starting `GOAL/CRITERION/FORBIDDEN` baseline, and identify the affected `CRITERION`, `FORBIDDEN`, `LAYER`, and `STEP` identifiers.
 3. Allocate one new `TASK<n>` for the approved unit of work. Continue the same `TASK<n>` across status updates; do not rename it between messages.
-4. Briefly record the task type, goal, affected `CRITERION/LAYER/STEP`, numeric substeps, modifications, verification, time, and status in `PROGRESS.md`.
-5. When evidence calls `GOAL/CRITERION` into question, follow goal change control. Do not edit the contract or implement against a proposed goal until it is explicitly approved and recorded in a goal-review task.
-6. Implement and verify against the starting `GOAL/CRITERION` baseline. For an Experiment, follow its decision rule and lifecycle. Update `ARCHITECTURE.md` or `FLOW.md` only when the accepted current state actually changes.
+4. Briefly record the task type, goal, affected `CRITERION/FORBIDDEN/LAYER/STEP`, numeric substeps, modifications, verification, time, and status in `PROGRESS.md`.
+5. When evidence calls `GOAL/CRITERION/FORBIDDEN` into question, follow goal change control. Do not edit the contract or implement against a proposed contract until it is explicitly approved and recorded in a goal-review task.
+6. Implement and verify against the starting `GOAL/CRITERION/FORBIDDEN` baseline. For an Experiment, follow its decision rule and lifecycle. Update `ARCHITECTURE.md` or `FLOW.md` only when the accepted current state actually changes.
 7. Perform version closeout, then keep `GOAL.md`, `ARCHITECTURE.md`, and `FLOW.md` as current-state documents and `PROGRESS.md` chronological.
 
 Do not edit source code merely to make it match stale documentation. Determine the intended truth from the user request and repository, then update code and current-state documents consistently.
@@ -160,7 +162,7 @@ Do not edit source code merely to make it match stale documentation. Determine t
 Each `TASK<n>` entry must contain:
 
 - task name, type, goal, status, and time;
-- related `CRITERION` and affected `LAYER/STEP`, using `无` when none;
+- related `CRITERION`, governing `FORBIDDEN`, and affected `LAYER/STEP`, using `无` when none;
 - numbered substeps;
 - what changed and how it was verified.
 
@@ -174,10 +176,10 @@ Before reporting a project change complete, confirm:
 
 - the task type was visible in its record and user-facing updates;
 - experimental work was not represented as a formal accepted change, and its outcome was recorded;
-- the task passed against its starting `GOAL/CRITERION` baseline;
-- any evidence that `GOAL/CRITERION` is flawed was surfaced rather than ignored;
-- `GOAL` and active `CRITERION` changed only through explicit approval and recorded history;
-- the result stays within project boundaries and the task's stated non-goals;
+- the task passed against its starting `GOAL/CRITERION/FORBIDDEN` baseline;
+- any evidence that `GOAL/CRITERION/FORBIDDEN` is flawed was surfaced rather than ignored;
+- `GOAL` and active `CRITERION` and `FORBIDDEN` entries changed only through explicit approval and recorded history;
+- the result stays within project boundaries, the task's stated non-goals, and all active `FORBIDDEN` constraints;
 - active `LAYER` entries describe the implemented architecture;
 - active `STEP` entries describe the real executable flow;
 - every added `LAYER`, `STEP`, dependency, service, or parallel path is necessary for a linked `CRITERION` and recorded in the current `TASK`;
